@@ -2,49 +2,34 @@ package DataObjects;
 
 import java.util.List;
 
-// truck Loading Result  Data objects to store output of Algorithm
+// Truck Loading Result  Data objects to store output of Algorithm
 public class Output {
-	private List<Truck> TruckList;
-	private String AlgorithmName;
-	private int NumberOfTrucksUsed;
-	private int TotalWastage;
 
-	public Output(List<Truck> truckList, String algorithmName, int numberOfTrucksUsed, int totalWastage) {
-		setTruckList(truckList);
-		setAlgorithmName(algorithmName);
-		setNumberOfTrucksUsed(numberOfTrucksUsed);
-		setTotalWastage(totalWastage);
+	/* Output Class Fields */
+	private List<Truck> OpenTrucks;
+	private List<Truck> ClosedTrucks;
+
+	/* Constructor for Output Class */
+	public Output(List<Truck> openTrucks, List<Truck> closedTrucks) {
+		super();
+		OpenTrucks = openTrucks;
+		ClosedTrucks = closedTrucks;
 	}
 
-	public List<Truck> getTruckList() {
-		return TruckList;
+	/* Getters and Setters for Output Class Fields */
+	public List<Truck> getOpenTrucks() {
+		return OpenTrucks;
 	}
 
-	public void setTruckList(List<Truck> truckList) {
-		TruckList = truckList;
+	public void setOpenTrucks(List<Truck> openTrucks) {
+		OpenTrucks = openTrucks;
 	}
 
-	public String getAlgorithmName() {
-		return AlgorithmName;
+	public List<Truck> getClosedTrucks() {
+		return ClosedTrucks;
 	}
 
-	public void setAlgorithmName(String algorithmName) {
-		AlgorithmName = algorithmName;
-	}
-
-	public int getNumberOfTrucksUsed() {
-		return NumberOfTrucksUsed;
-	}
-
-	public void setNumberOfTrucksUsed(int numberOfTrucksUsed) {
-		NumberOfTrucksUsed = numberOfTrucksUsed;
-	}
-
-	public int getTotalWastage() {
-		return TotalWastage;
-	}
-
-	public void setTotalWastage(int totalWastage) {
-		TotalWastage = totalWastage;
+	public void setClosedTrucks(List<Truck> closedTrucks) {
+		ClosedTrucks = closedTrucks;
 	}
 }

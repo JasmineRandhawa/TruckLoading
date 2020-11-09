@@ -1,37 +1,31 @@
 package DataObjects;
 
-import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
 
 // Truck object for storing truck info
 public class Truck {
 
+	/* Truck Class Fields */
 	private int TruckId;
 	private String TruckName;
-	private List<Integer> TruckItems;
+	private List<Item> TruckItems;
 	private int RemainingCapacity;
-	private double minLattitude;
-	private double maxLattitude;
-	private double minLongitude;
-	private double maxLongitude;
-	private Date minDeliveryDate;
-	private Date maxDeliveryDate;
+	private int MinDeliveryDeadline;
+	private int MaxDeliveryDeadline;
 
-	public Truck(int truckId, String truckName, List<Integer> truckItems, int remainingCapacity, double minLattitude,
-			double maxLattitude, double minLongitude, double maxLongitude, Date minDeliveryDate, Date maxDeliveryDate) {
-		super();
+	/* Constructor for Truck Class */
+	public Truck(int truckId, String truckName, List<Item> truckItems, int remainingCapacity, int minDeliveryDeadline,
+			int maxDeliveryDeadline) {
 		TruckId = truckId;
 		TruckName = truckName;
 		TruckItems = truckItems;
 		RemainingCapacity = remainingCapacity;
-		this.minLattitude = minLattitude;
-		this.maxLattitude = maxLattitude;
-		this.minLongitude = minLongitude;
-		this.maxLongitude = maxLongitude;
-		this.minDeliveryDate = minDeliveryDate;
-		this.maxDeliveryDate = maxDeliveryDate;
+		MinDeliveryDeadline = minDeliveryDeadline;
+		MaxDeliveryDeadline = maxDeliveryDeadline;
 	}
 
+	/* Getters and Setters for Truck Class Fields */
 	public int getTruckId() {
 		return TruckId;
 	}
@@ -48,11 +42,11 @@ public class Truck {
 		TruckName = truckName;
 	}
 
-	public List<Integer> getTruckItems() {
+	public List<Item> getTruckItems() {
 		return TruckItems;
 	}
 
-	public void setTruckItems(List<Integer> truckItems) {
+	public void setTruckItems(List<Item> truckItems) {
 		TruckItems = truckItems;
 	}
 
@@ -64,52 +58,28 @@ public class Truck {
 		RemainingCapacity = remainingCapacity;
 	}
 
-	public double getMinLattitude() {
-		return minLattitude;
+	public int getMinDeliveryDeadline() {
+		return MinDeliveryDeadline;
 	}
 
-	public void setMinLattitude(double minLattitude) {
-		this.minLattitude = minLattitude;
+	public void setMinDeliveryDeadline(int minDeliveryDeadline) {
+		MinDeliveryDeadline = minDeliveryDeadline;
 	}
 
-	public double getMaxLattitude() {
-		return maxLattitude;
+	public int getMaxDeliveryDeadline() {
+		return MaxDeliveryDeadline;
 	}
 
-	public void setMaxLattitude(double maxLattitude) {
-		this.maxLattitude = maxLattitude;
+	public void setMaxDeliveryDeadline(int maxDeliveryDeadline) {
+		MaxDeliveryDeadline = maxDeliveryDeadline;
 	}
 
-	public double getMinLongitude() {
-		return minLongitude;
-	}
+	/* Comparator for sorting the Truck list by truck Id */
+	public static Comparator<Truck> TruckIdComparator = new Comparator<Truck>() {
 
-	public void setMinLongitude(double minLongitude) {
-		this.minLongitude = minLongitude;
-	}
-
-	public double getMaxLongitude() {
-		return maxLongitude;
-	}
-
-	public void setMaxLongitude(double maxLongitude) {
-		this.maxLongitude = maxLongitude;
-	}
-
-	public Date getMinDeliveryDate() {
-		return minDeliveryDate;
-	}
-
-	public void setMinDeliveryDate(Date minDeliveryDate) {
-		this.minDeliveryDate = minDeliveryDate;
-	}
-
-	public Date getMaxDeliveryDate() {
-		return maxDeliveryDate;
-	}
-
-	public void setMaxDeliveryDate(Date maxDeliveryDate) {
-		this.maxDeliveryDate = maxDeliveryDate;
-	}
+		public int compare(Truck truck1, Truck truck2) {
+			return truck1.getTruckId() - truck2.getTruckId();
+		}
+	};
 
 }
