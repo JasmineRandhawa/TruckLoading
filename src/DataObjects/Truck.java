@@ -15,10 +15,9 @@ public class Truck {
 	private int MaxDeliveryDeadline;
 
 	/* Constructor for Truck Class */
-	public Truck(int truckId, String truckName, List<Item> truckItems, int remainingCapacity, int minDeliveryDeadline,
+	public Truck(int truckId,  List<Item> truckItems, int remainingCapacity, int minDeliveryDeadline,
 			int maxDeliveryDeadline) {
 		TruckId = truckId;
-		TruckName = truckName;
 		TruckItems = truckItems;
 		RemainingCapacity = remainingCapacity;
 		MinDeliveryDeadline = minDeliveryDeadline;
@@ -32,14 +31,6 @@ public class Truck {
 
 	public void setTruckId(int truckId) {
 		TruckId = truckId;
-	}
-
-	public String getTruckName() {
-		return TruckName;
-	}
-
-	public void setTruckName(String truckName) {
-		TruckName = truckName;
 	}
 
 	public List<Item> getTruckItems() {

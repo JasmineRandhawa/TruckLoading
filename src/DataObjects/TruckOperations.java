@@ -15,7 +15,7 @@ public class TruckOperations {
 		int remainingCapacity = truckCapacity - item.getItemSize();
 		truckItems.add(item);
 		int truckIndex = GetMaxtruckId(openTrucks) + 1;
-		Truck truck = new Truck(truckIndex, "Truck" + truckIndex, truckItems, remainingCapacity,
+		Truck truck = new Truck(truckIndex, truckItems, remainingCapacity,
 				GetMinDeliveryDeadline(truckItems), GetMaxDeliveryDeadline(truckItems));
 		openTrucks.add(truck);
 		return openTrucks;
@@ -27,6 +27,8 @@ public class TruckOperations {
 		items.add(item);
 		truck.setTruckItems(items);
 		truck.setRemainingCapacity(truck.getRemainingCapacity() - item.getItemSize());
+		truck.setMaxDeliveryDeadline(GetMaxDeliveryDeadline(items));
+		truck.setMinDeliveryDeadline(GetMinDeliveryDeadline(items));
 		return truck;
 	}
 

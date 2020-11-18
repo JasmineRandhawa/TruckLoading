@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- Template by quackit.com -->
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Truck Loading Output</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+			font-family:Sans-serif;
+			line-height: 1.5em;
+		}
+		
+
+		#header {
+			font-size: large;
+			padding: 0.3em;
+			background: #BCCE98;
+		}
+.divcontainer
+{
+width:auto;
+display:inline;
+}
+
+		table.blueTable {
+  border: 1px solid #1C6EA4;
+display:inline-block;
+  width:auto;
+  text-align: left
+}
+table.blueTable td, table.blueTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.blueTable tbody td {
+  font-size: 11px;
+width:80px;
+}
+
+table.blueTable thead th {
+  font-size: 13px;
+  font-weight: bold;
+  color: green;
+  background-color:LightSkyBlue;
+width:80px;
+  border-left: 2px solid #D0E4F5;
+}
+
+
+table.pinkTable {
+  border: 1px solid #1C6EA4;
+display:inline-block;
+  width:auto;
+  text-align: left
+}
+table.pinkTable td, table.pinkTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.pinkTable  tbody td {
+  font-size: 11px;
+width:80px;
+}
+
+
+table.pinkTable  thead th {
+  font-size: 13px;
+  font-weight: bold;
+  color: green;
+background-color:PeachPuff;
+width:80px;
+  border-left: 2px solid #D0E4F5;
+}
+
+table.greenTable {
+  border: 1px solid #1C6EA4;
+display:inline-block;
+  width:auto;
+  text-align: left
+}
+table.greenTable td, table.greenTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.greenTable  tbody td {
+  font-size: 11px;
+width:80px;
+}
+
+
+table.greenTable  thead th {
+  font-size: 13px;
+  font-weight: bold;
+width:80px;
+background-color:DarkSeaGreen;
+  color: green;
+  border-left: 2px solid #D0E4F5;
+}
+
+	</style>
+	
+</head>
+
+<body>
+
+	<header id="header"><center><h1>Truck Loading</h1></center></header>
+
+	<div id="container" class "divcontainer">
+
+	<br /><span style="color:ForestGreen	;"><b><h2> Given: </b></h2></span><span style="color:DarkGreen	;">Each Truck Capacity is of Capacity : 100<br />Maximum Threshold for Number of Open trucks allowed at any instance : 5</span><br /> <br /><table class="pinkTable"><tr><td colspan="5"><h1><center><span style="color:Chocolate	;">Input Item Sequence</span></center></h1></td></tr><tr><th>ItemId</th><th>ItemSize</th><th>ItemDeadline</th></tr><tr style="background-color:Cornsilk;"><td>Item 1</td><td>40</td><td>2 days</td></tr><tr style="background-color:Cornsilk;"><td>Item 2</td><td>40</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 3</td><td>50</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 4</td><td>60</td><td>2 days</td></tr><tr style="background-color:Cornsilk;"><td>Item 5</td><td>50</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 6</td><td>40</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 7</td><td>50</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 8</td><td>60</td><td>1 day</td></tr></table>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br /><span style="color:ForestGreen	;"><b><h2>Results : Offline OPT : First Fit Decreasing Algorithm</b></h2></span><table class="pinkTable"><tr><td colspan="5"><h1><center><span style="color:Chocolate	;">Sorted Input Item Sequence with decreasing size and increasing deadline</span></center></h1></td></tr><tr><th>ItemId</th><th>ItemSize</th><th>ItemDeadline</th></tr><tr style="background-color:Cornsilk;"><td>Item 8</td><td>60</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 4</td><td>60</td><td>2 days</td></tr><tr style="background-color:Cornsilk;"><td>Item 3</td><td>50</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 5</td><td>50</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 7</td><td>50</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 2</td><td>40</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 6</td><td>40</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 1</td><td>40</td><td>2 days</td></tr></table>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<table class="pinkTable"><tr><td colspan="5"><h1><center><b><span style="color:Chocolate	;">Open Truck Items<b></span></center></h1></td></tr><tr style="background-color:PaleGoldenrod;"><td colspan="5"><h1><center>Truck 1</center></h1></td></tr><tr><th>ItemId</th><th>ItemSize</th><th>ItemDeadline</th></tr><tr style="background-color:Cornsilk;"><td>Item 8</td><td>60</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 2</td><td>40</td><td>1 day</td></tr><tr style="background-color:PaleGoldenrod;"><td colspan="5"><h1><center>Truck 2</center></h1></td></tr><tr><th>ItemId</th><th>ItemSize</th><th>ItemDeadline</th></tr><tr style="background-color:Cornsilk;"><td>Item 6</td><td>40</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 4</td><td>60</td><td>2 days</td></tr></table>&nbsp;<table class="pinkTable"><tr style="background-color:PaleGoldenrod;"><td colspan="5"><h1><center>Truck 3</center></h1></td></tr><tr><th>ItemId</th><th>ItemSize</th><th>ItemDeadline</th></tr><tr style="background-color:Cornsilk;"><td>Item 3</td><td>50</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 5</td><td>50</td><td>1 day</td></tr><tr style="background-color:PaleGoldenrod;"><td colspan="5"><h1><center>Truck 4</center></h1></td></tr><tr><th>ItemId</th><th>ItemSize</th><th>ItemDeadline</th></tr><tr style="background-color:Cornsilk;"><td>Item 7</td><td>50</td><td>1 day</td></tr><tr style="background-color:Cornsilk;"><td>Item 1</td><td>40</td><td>2 days</td></tr></table>&nbsp;<br /><span style="color:ForestGreen	;"><b><h2>Results : Online First Fit Algorithm</b></h2></span><br /><span style="color:ForestGreen	;"><b><h2>Results : Online Best Fit Algorithm</b></h2></span><br /><span style="color:ForestGreen	;"><b><h2>Results : Online Harmonic Fit Algorithm</b></h2></span>
+
+	</div>
+
+</body>
+
+</html>

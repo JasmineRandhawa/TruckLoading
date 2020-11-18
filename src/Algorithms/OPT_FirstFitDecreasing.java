@@ -13,26 +13,23 @@ import java.util.List;
 public class OPT_FirstFitDecreasing {
 
 	/* First Fit Decreasing Algorithm for Truck Loading */
-	public static Output GetResults(List<Item> itemList, int numberOfOpenTrucksThreshold, int truckCapacity) {
+	public static Output GetResults(List<Item> sortedItemList, int numberOfOpenTrucksThreshold, int truckCapacity) {
 		List<Truck> openTrucks = new ArrayList<Truck>(numberOfOpenTrucksThreshold);
 		List<Truck> closedTrucks = new ArrayList<Truck>();
 
-		// Sort items in ascending order of delivery deadline and descending order of
-		// their size
-		Collections.sort(itemList, Item.ItemDeliveryDealineComparator);
-		Collections.sort(itemList, Item.ItemSizeComparator);
+		// open atleast one truck initially
+		Truck defaultFirstTruck = new Truck(1, new ArrayList<Item>(), truckCapacity, 0, 0);
+		openTrucks.add(defaultFirstTruck);
 
-		for (Item item : itemList) {
+		for (Item item : sortedItemList) {
+			
 			boolean isItemAdded = false;
-
-			// scan all the open trucks
-			for (Truck truck : openTrucks) {
-				// loads the item in the first truck it can fit it
-				if (item.getItemSize() <= truck.getRemainingCapacity()) {
-					truck = TruckOperations.LoadItemIntoTruck(truck, item);
-					isItemAdded = true;
-					break;
-				}
+			
+			//find an open truck which can fit the item
+			Truck truck = GetTruckThanItemCanFitInto(openTrucks, item.getItemSize());
+			if (truck != null) {
+				truck = TruckOperations.LoadItemIntoTruck(truck, item);
+				isItemAdded = true;
 			}
 
 			// if item cannot fit in any of the open truck
@@ -52,5 +49,16 @@ public class OPT_FirstFitDecreasing {
 		// return output in form of open and closed trucks after serving all items
 		Output output = new Output(openTrucks, closedTrucks);
 		return output;
+	}
+
+	private static Truck GetTruckThanItemCanFitInto(List<Truck> openTrucks, int itemSize) {
+		// scan all the open trucks
+		for (Truck truck : openTrucks) {
+			// loads the item in the first truck it can fit it
+			if (itemSize <= truck.getRemainingCapacity()) {
+				return truck;
+			}
+		}
+		return null;
 	}
 }
