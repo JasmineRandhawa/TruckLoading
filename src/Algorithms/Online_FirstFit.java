@@ -27,7 +27,6 @@ public class Online_FirstFit {
 		// processing items one by one in online manner
 		for (Item item : itemList) 
 		{
-
 			boolean isItemAdded = false;
 
 			// find an open truck which can fit the item

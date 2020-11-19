@@ -31,7 +31,7 @@ public class OPT_Offline {
 			openTrucks.add(truck);
 
 			// load the truck with items that can fill the truck the best
-			while (truck.getRemainingCapacity() >= 0 && truck.getRemainingCapacity() <= truckCapacity) 
+			while (truck.getRemainingCapacity() <= truckCapacity) 
 			{
 				Item item = ItemOperations.GetFirstUnProcessedItemThatFitTheTruck(truck.getRemainingCapacity(),unProcessedItemList);
 				if (item != null) {

@@ -24,7 +24,7 @@ public class Online_BestFit {
 		Truck defaultFirstTruck = new Truck(1, new ArrayList<Item>(), truckCapacity, 0, 0);
 		openTrucks.add(defaultFirstTruck);
 
-		//proessing items one by one in online manner
+		//processing items one by one in online manner
 		for (Item item : itemList) {
 			
 			boolean isItemAdded = false;
