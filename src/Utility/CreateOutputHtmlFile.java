@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import DataObjects.Constants;
+import DataObjects.HtmlStrings;
 import DataObjects.Item;
 import DataObjects.Output;
 import DataObjects.PerformanceComparison;
@@ -25,27 +26,33 @@ public class CreateOutputHtmlFile {
 	public static void CreateHTMLFile(int truckCapacity, int numberOfOpenBinsThreshold, List<Item> itemList,
 			List<Item> sorteditemList, Output resultOPT_FFD, Output resultOnline_FirstFit, Output resultOnline_BestFit,
 			Output resultOnline_HarmonicFit, List<PerformanceComparison> comparisonResult) throws IOException {
+		IntitalizeFileOutput();
+		String finalHtml = "";
+		boolean isNoResultAvailable = CheckIfAnyResultsExist(resultOPT_FFD, resultOnline_FirstFit, resultOnline_BestFit,
+				resultOnline_HarmonicFit);
+		finalHtml += HtmlStrings.TruckCapacityHeading + truckCapacity + "<br />" + HtmlStrings.ThresholdHeading
+				+ numberOfOpenBinsThreshold + "" + "</span><br /> <br />";
 
-		try {
-			IntitalizeFileOutput();
-			String finalHtml = "";
-			finalHtml = CreateInputItemHtml(itemList, truckCapacity, numberOfOpenBinsThreshold, finalHtml);
-			finalHtml = CreateOfflineAlgorithmResultHtml(sorteditemList, resultOPT_FFD, finalHtml,
+		if (isNoResultAvailable) {
+			if (itemList != null && itemList.size() > 0)
+				finalHtml += HtmlStringConversions.GetItemHtml(itemList, HtmlStrings.InputItemListHeading);
+			finalHtml += HtmlStrings.NoResultsAvailableHtmlMessage;
+		} else {
+			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, sorteditemList, resultOPT_FFD,
 					Constants.OPTAlgoName);
-			finalHtml = CreateOnlineAlgorithmResultHtml(resultOnline_FirstFit, finalHtml, Constants.FirstFitAlgoName);
-			finalHtml = CreateOnlineAlgorithmResultHtml(resultOnline_BestFit, finalHtml, Constants.BestFitAlgoName);
-			finalHtml = CreateOnlineAlgorithmResultHtml(resultOnline_HarmonicFit, finalHtml,
+			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, null, resultOnline_FirstFit,
+					Constants.FirstFitAlgoName) +"<br /><br /><br />";
+			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, null, resultOnline_BestFit,
+					Constants.BestFitAlgoName);
+			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, null, resultOnline_HarmonicFit,
 					Constants.HarmonicFitAlgoName);
-			finalHtml = CreateComparisonResultHtml(comparisonResult, finalHtml);
-			EmbedFinalResultsInOutputFile(finalHtml);
-			System.out.println("Success in creating Output file at location : " + outputFilePath);
-		} catch (Exception e) {
-			System.out.println("Error in creating html file : " + e.getMessage());
+			finalHtml += HtmlStringConversions.CreateComparisonResultHtml(comparisonResult);
 		}
+		EmbedFinalResultsInOutputFile(finalHtml);
 	}
 
 	/* Private Methods */
-
+	
 	// initialize output HTML file with HTML file template CSS
 	private static void IntitalizeFileOutput() throws IOException {
 		String html = new String(Files.readAllBytes(Paths.get(templatePath)));
@@ -59,7 +66,7 @@ public class CreateOutputHtmlFile {
 		out.close();
 	}
 
-	// embed final results into the output html file
+	// embed final results into the output HTML file
 	private static void EmbedFinalResultsInOutputFile(String finalHtml) throws IOException {
 		String html = new String(Files.readAllBytes(Paths.get(outputFilePath)));
 		html = html.replace("This is the Output", finalHtml);
@@ -67,40 +74,24 @@ public class CreateOutputHtmlFile {
 		out.print(html);
 		out.close();
 	}
-
-	// get input list html string
-	private static String CreateInputItemHtml(List<Item> itemList, int truckCapacity, int numberOfOpenBinsThreshold,
-			String htmlString) {
-		String headingTag = "<span " + "style=\"color:ForestGreen	;\"" + ">" + "<b><h2> Given: </b></h2></span>"
-				+ "<span " + "style=\"color:DarkGreen	;\"" + ">" + "Each Truck Capacity is of Capacity : "
-				+ truckCapacity + "<br />" + "Maximum Threshold for Number of Open trucks allowed at any instance : "
-				+ numberOfOpenBinsThreshold + "" + "</span><br /> <br />";
-		String itemTableString = Helper.GetItemTableHtmlString(itemList, false, false);
-		return htmlString + "<br />" + headingTag + itemTableString;
+	
+	// Check all algorithm results availability
+	private static boolean CheckIfAnyResultsExist(Output resultOPT_FFD, Output resultOnline_FirstFit,
+			Output resultOnline_BestFit, Output resultOnline_HarmonicFit) {
+		if (!CheckIfAlgoResultExist(resultOPT_FFD) || !CheckIfAlgoResultExist(resultOnline_BestFit)
+				|| !CheckIfAlgoResultExist(resultOnline_FirstFit) || !CheckIfAlgoResultExist(resultOnline_FirstFit))
+			return false;
+		return true;
 	}
 
-	// get offline algorithm results html string
-	private static String CreateOfflineAlgorithmResultHtml(List<Item> sorteditemList, Output resultOffline,
-			String htmlString, String algorithmName) {
-		String optHeadingTag = "<span " + "style=\"color:ForestGreen	;\"" + ">" + "<b><h2>" + "Results : "
-				+ algorithmName + "</b></h2></span>";
-		String sortedItemListTableHtmlString = Helper.GetItemTableHtmlString(sorteditemList, true, false);
-		List<Truck> openTrucks = resultOffline.getOpenTrucks();
-		String openTrucksTableHtmlString = Helper.GetTruckTableHTMLString(openTrucks, "Open");
-		return htmlString + "<br />" + optHeadingTag + sortedItemListTableHtmlString + openTrucksTableHtmlString;
-	}
+	// checkIf particular algorithm result available
+	private static boolean CheckIfAlgoResultExist(Output result) {
+		boolean isNoResultAvailable = true;
+		List<Truck> openTrucks = result.getOpenTrucks();
+		List<Truck> closedTrucks = result.getClosedTrucks();
 
-	// get online algorithm results html string
-	private static String CreateOnlineAlgorithmResultHtml(Output resultOnline, String htmlString,
-			String algorithmName) {
-		String optHeadingTag = "<span " + "style=\"color:ForestGreen	;\"" + ">" + "<b><h2>" + "Results : "
-				+ algorithmName + "</b></h2></span>";
-		List<Truck> openTrucks = resultOnline.getOpenTrucks();
-		String openTrucksTableHtmlString = Helper.GetTruckTableHTMLString(openTrucks, "Open");
-		return htmlString + "<br />" + optHeadingTag + openTrucksTableHtmlString;
-	}
-
-	private static String CreateComparisonResultHtml(List<PerformanceComparison> comparisonResult, String htmlString) {
-		return htmlString;
+		if ((openTrucks != null && openTrucks.size() > 0) || (closedTrucks != null && closedTrucks.size() > 0))
+			isNoResultAvailable = false;
+		return isNoResultAvailable;
 	}
 }

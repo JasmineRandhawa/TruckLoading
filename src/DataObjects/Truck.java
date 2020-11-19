@@ -72,5 +72,12 @@ public class Truck {
 			return truck1.getTruckId() - truck2.getTruckId();
 		}
 	};
+	
+	/* Comparator for sorting the Truck list by truck remaining capacity */
+	public static Comparator<Truck> TruckRemainingCapacityComparator = new Comparator<Truck>() {
 
+		public int compare(Truck truck1, Truck truck2) {
+			return truck1.getRemainingCapacity() - truck2.getRemainingCapacity();
+		}
+	};
 }

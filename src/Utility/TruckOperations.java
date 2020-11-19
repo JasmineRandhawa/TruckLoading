@@ -1,22 +1,32 @@
-package DataObjects;
+package Utility;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//Truck Operations such as opening new trucks , loading items into new or existing trucks 
+import DataObjects.Item;
+import DataObjects.Truck;
+
+/*Truck Operations such as opening new trucks , loading items into new or existing trucks , 
+checking conditions for values of fields of the truck */
 public class TruckOperations {
 
 	/* Public Methods */
 
 	// to open a new truck and load item into it
-	public static List<Truck> openNewTruck(Item item, int truckCapacity, List<Truck> openTrucks) {
+	public static List<Truck> openNewTruck(Item item, int truckCapacity, List<Truck> openTrucks , List<Truck> closedTrucks) {
 		List<Item> truckItems = new ArrayList<Item>();
 		int remainingCapacity = truckCapacity - item.getItemSize();
 		truckItems.add(item);
-		int truckIndex = GetMaxtruckId(openTrucks) + 1;
-		Truck truck = new Truck(truckIndex, truckItems, remainingCapacity,
-				GetMinDeliveryDeadline(truckItems), GetMaxDeliveryDeadline(truckItems));
+		int truckIndex = 1;
+		if(openTrucks!=null && openTrucks.size()>0)
+			truckIndex= GetMaxtruckId(openTrucks) + 1;
+		else if(closedTrucks!=null && closedTrucks.size()>0)
+			truckIndex= GetMaxtruckId(closedTrucks) + 1;
+		Truck truck = new Truck(truckIndex, truckItems, remainingCapacity, GetMinDeliveryDeadline(truckItems),
+				GetMaxDeliveryDeadline(truckItems));
+		if(openTrucks==null)
+			openTrucks = new ArrayList<Truck>();
 		openTrucks.add(truck);
 		return openTrucks;
 	}
@@ -41,7 +51,38 @@ public class TruckOperations {
 			return false;
 	}
 
+	// scan all the open trucks and find the first truck that can fit item
+	public static Truck GetTruckThanItemCanFitInto(List<Truck> openTrucks, int itemSize) {
+		for (Truck truck : openTrucks) {
+			if (itemSize <= truck.getRemainingCapacity())
+				return truck;
+		}
+		return null;
+	}
+
+	// scan all the open trucks and find the best truck that has delivery deadline
+	// as 1 and ,ax capacity and can be closed
+	public static Truck FindBestOpenTruckThatHasUnitDeliveryDate(List<Truck> openTrucks) {
+		Collections.sort(openTrucks, Truck.TruckRemainingCapacityComparator);
+		for (Truck truck : openTrucks)
+		if (truck.getMinDeliveryDeadline() == 1) {
+			return truck;
+		}
+		return null;
+	}
+
+	// scan all the open trucks and find the first truck that has delivery deadline
+	// as 1 and can be closed
+	public static Truck FindFirstOpenTruckThatHasUnitDeliveryDate(List<Truck> openTrucks) {
+		for (Truck truck : openTrucks)
+			if (truck.getMinDeliveryDeadline() == 1) {
+				return truck;
+			}
+		return null;
+	}
+
 	/* Private Methods */
+
 	// Get Maximum value of delivery deadline of items in the list
 	private static int GetMaxDeliveryDeadline(List<Item> truckItems) {
 		Collections.sort(truckItems, Item.ItemDeliveryDealineComparator);
