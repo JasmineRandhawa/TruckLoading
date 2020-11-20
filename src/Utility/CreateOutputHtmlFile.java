@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import DataObjects.Constants;
+import DataObjects.HarmonicClass;
 import DataObjects.HtmlStrings;
 import DataObjects.Item;
 import DataObjects.Output;
@@ -16,36 +19,49 @@ import DataObjects.Truck;
 /*Create Output HTML Files*/
 public class CreateOutputHtmlFile {
 
-	static String outputFilePath = Constants.OutputFilePath;
-	static String templatePath = Constants.HTMLOutputTemplateFilePath;
-
+	//get file paths
+	static final String outputFilePath = Constants.OutputFilePath;
+	static final String templatePath = Constants.HTMLOutputTemplateFilePath;
 	/*
 	 * create HTML file containing all results for Truck Loading (Offline + Online
 	 * Algorithms)
 	 */
-	public static void CreateHTMLFile(int truckCapacity, int numberOfOpenBinsThreshold, List<Item> itemList,
-			List<Item> sorteditemList, Output resultOPT_FFD, Output resultOnline_FirstFit, Output resultOnline_BestFit,
-			Output resultOnline_HarmonicFit, List<PerformanceComparison> comparisonResult) throws IOException {
+	public static void CreateHTMLFile(List<Item> itemList,Output resultOPT_FFD, Output resultOnline_FirstFit, 
+			                          Output resultOnline_BestFit, Output resultOnline_HarmonicFit, 
+			                          List<PerformanceComparison> comparisonResult) throws IOException {
+		
 		IntitalizeFileOutput();
 		String finalHtml = "";
 		boolean isNoResultAvailable = CheckIfAnyResultsExist(resultOPT_FFD, resultOnline_FirstFit, resultOnline_BestFit,
 				resultOnline_HarmonicFit);
-		finalHtml += HtmlStrings.TruckCapacityHeading + truckCapacity + "<br />" + HtmlStrings.ThresholdHeading
-				+ numberOfOpenBinsThreshold + "" + "</span><br /> <br />";
+		finalHtml += HtmlStrings.AssumptionsHeading;
 
 		if (isNoResultAvailable) {
 			if (itemList != null && itemList.size() > 0)
 				finalHtml += HtmlStringConversions.GetItemHtml(itemList, HtmlStrings.InputItemListHeading);
 			finalHtml += HtmlStrings.NoResultsAvailableHtmlMessage;
 		} else {
-			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, sorteditemList, resultOPT_FFD,
-					Constants.OPTAlgoName);
+			// For OPT Offline - First Fit Decreasing Algorithm we Sort items in ascending order of delivery deadline and descending order of
+						// their size
+			List<Item> sortedItemList = new ArrayList<Item>();
+			if(itemList != null && itemList.size()>0)
+			{
+				sortedItemList.addAll(itemList);
+				Collections.sort(sortedItemList, Item.ItemDeliveryDealineComparator);
+				Collections.sort(sortedItemList, Item.ItemSizeComparator);
+			}
+			
+			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, sortedItemList, resultOPT_FFD,
+					     Constants.OPTAlgoName ,null);
 			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, null, resultOnline_FirstFit,
-					Constants.FirstFitAlgoName) +"<br /><br /><br />";
+					      Constants.FirstFitAlgoName ,null) +"<br /><br /><br />";
 			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, null, resultOnline_BestFit,
-					Constants.BestFitAlgoName);
+					     Constants.BestFitAlgoName ,null);
+			
+			List<HarmonicClass> harmonicClasses = TruckOperations.DivideIntoKClasses(Constants.TruckCapacity,Constants.OpenTrucksThreshold);
+			
 			finalHtml += HtmlStringConversions.GetInputAndResultHtml(itemList, null, resultOnline_HarmonicFit,
-					Constants.HarmonicFitAlgoName);
+					     Constants.HarmonicFitAlgoName, harmonicClasses) + "<br />";
 			finalHtml += HtmlStringConversions.CreateComparisonResultHtml(comparisonResult);
 		}
 		EmbedFinalResultsInOutputFile(finalHtml);

@@ -5,48 +5,70 @@ public class PerformanceComparison {
 
 	/* Performance Comparison Class Fields */
 	private double CompetitiveRatio;
-	private int NumberOfTrucksUsed;
-	private int Wastage;
-	private String AlgorthmName;
+	private int NoOfOpenTrucks;
+	private int NoOfClosedTrucks;
+	private int NoOfItemsDelivered;
+	private int TotalSizeOfExpeditedItems;
+	private int TotalSizeOfDeliveredItems;
+	private int TotalWastage;
+	private int TotalInputSize;
 
-	/* Constructor for Performance Comparison Class */
-	public PerformanceComparison(double competitiveRatio, int numberOfTrucksUsed, int wastage, String algorthmName) {
-		setCompetitiveRatio(competitiveRatio);
-		setNumberOfTrucksUsed(numberOfTrucksUsed);
-		setWastage(wastage);
-		setAlgorthmName(algorthmName);
-	}
+	private String AlgorthmName;
 
 	/* Getters and Setters for Performance Comparison Class Fields */
 	public double getCompetitiveRatio() {
 		return CompetitiveRatio;
 	}
-
 	public void setCompetitiveRatio(double competitiveRatio) {
 		CompetitiveRatio = competitiveRatio;
 	}
-
-	public int getNumberOfTrucksUsed() {
-		return NumberOfTrucksUsed;
+	public int getNoOfOpenTrucks() {
+		return NoOfOpenTrucks;
 	}
-
-	public void setNumberOfTrucksUsed(int numberOfTrucksUsed) {
-		NumberOfTrucksUsed = numberOfTrucksUsed;
+	public void setNoOfOpenTrucks(int noOfOpenTrucks) {
+		NoOfOpenTrucks = noOfOpenTrucks;
 	}
-
-	public int getWastage() {
-		return Wastage;
+	public int getNoOfClosedTrucks() {
+		return NoOfClosedTrucks;
 	}
-
-	public void setWastage(int wastage) {
-		Wastage = wastage;
+	public void setNoOfClosedTrucks(int noOfClosedTrucks) {
+		NoOfClosedTrucks = noOfClosedTrucks;
 	}
-
+	public int getNoOfItemsDelivered() {
+		return NoOfItemsDelivered;
+	}
+	public void setNoOfItemsDelivered(int noOfItemsDelivered) {
+		NoOfItemsDelivered = noOfItemsDelivered;
+	}
+	public int getTotalSizeOfExpeditedItems() {
+		return TotalSizeOfExpeditedItems;
+	}
+	public void setTotalSizeOfExpeditedItems(int totalSizeOfExpeditedItems) {
+		TotalSizeOfExpeditedItems = totalSizeOfExpeditedItems;
+	}
+	public int getTotalSizeOfDeliveredItems() {
+		return TotalSizeOfDeliveredItems;
+	}
+	public void setTotalSizeOfDeliveredItems(int totalSizeOfDeliveredItems) {
+		TotalSizeOfDeliveredItems = totalSizeOfDeliveredItems;
+	}
+	public int getTotalWastage() {
+		return TotalWastage;
+	}
+	public void setTotalWastage(int totalWastage) {
+		TotalWastage = totalWastage;
+	}
 	public String getAlgorthmName() {
 		return AlgorthmName;
 	}
-
 	public void setAlgorthmName(String algorthmName) {
 		AlgorthmName = algorthmName;
+	}
+	
+	public int getTotalInputSize() {
+		return TotalInputSize;
+	}
+	public void setTotalInputSize(int totalInputSize) {
+		TotalInputSize = totalInputSize;
 	}
 }

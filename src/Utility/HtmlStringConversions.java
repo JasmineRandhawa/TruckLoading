@@ -1,9 +1,11 @@
 package Utility;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import DataObjects.Constants;
+import DataObjects.HarmonicClass;
 import DataObjects.HtmlStrings;
 import DataObjects.Item;
 import DataObjects.Output;
@@ -14,13 +16,103 @@ import DataObjects.Truck;
 public class HtmlStringConversions {
 
 	public static String CreateComparisonResultHtml(List<PerformanceComparison> comparisonResult) {
-		return "";
+		String tableHtmlString ="";
+		if (comparisonResult != null && comparisonResult.size() > 0) 
+		{
+			
+			tableHtmlString += "<span " + "style=\"color:ForestGreen	;\"" + ">" + "<b><h2>" + "Results : "
+									+ HtmlStrings.PerformanceResultsHeading + "</b></h2>" +
+							"</span>" ;
+		
+			for (PerformanceComparison perf : comparisonResult) {
+				tableHtmlString +=  "<table class=" + "\"" + "blueTable" + "\"" + ">"+
+											"<tr>"+
+												 "<td>" +
+												 "<b><span " + "style=\"color:Chocolate	;\"" + ">" + 
+										 	   		perf.getAlgorthmName() +
+										 	   	"</b></span>"+ 
+												"</td>" +
+											"</tr>" +
+											"<tr>" +
+												 "<td>" +
+												     "<center>" + "<b>Total Input Size : </b> " + perf.getTotalInputSize() +
+												      "</center>" +
+												 "</td>" +
+											 "</tr>" +
+											 "<tr>" +
+												"<td>" +
+													 "<center>" + "<b>Delivered Items Count : </b> " + perf.getNoOfItemsDelivered() +
+													  "</center>" +
+												"</td>" +
+											"</tr>" +
+											"<tr>" +
+												 "<td>" +
+												     "<center>" + "<b>Delivered Items Size : </b> " + 
+												     		perf.getTotalSizeOfDeliveredItems() +
+												     	 "</center>" +
+												 "</td>" +
+											"</tr>" +
+											 "<tr>" +
+												 "<td>" +
+												     "<center>" + "<b>Total Wastage : </b> " +
+												     	perf.getTotalWastage() + "</center>" +
+												 "</td>" +
+											 "</tr>" +
+										     "<tr>" +
+											 "<td>" +
+											     "<center>" + "<b>Competitive Ratio : </b> " +
+											     	perf.getCompetitiveRatio() + "</center>" +
+											 "</td>" +
+									     "</tr>" +
+									"</table>";
+			}
+			tableHtmlString+= "<br /><br />";
+		}
+		else
+		{
+			tableHtmlString = HtmlStrings.NoDataHtmlMessage;;
+		}
+		return tableHtmlString;
+	}
+	
+	private static String GetHarmonicClassesHtml(List<HarmonicClass> harmonicClasses) {
+		String tableHtmlString ="";
+		if (harmonicClasses != null && harmonicClasses.size() > 0) 
+		{
+			
+			tableHtmlString += "<span " + "style=\"color:Chocolate	;\"" + ">"+
+								         " <b>"+  HtmlStrings.HarmonicClassesHeading +"</b>" +
+								       "</span><br />";
+
+			Collections.sort(harmonicClasses , HarmonicClass.HarmonicClassIdIdComparator);
+			
+			for (HarmonicClass harmonicClass : harmonicClasses) {
+				tableHtmlString +=  "<table class=" + "\"" + "blueTable" + "\"" + ">"+
+												 "<tr>"+
+												 	"<td>" +
+													     "<b><center>" + "Class " + harmonicClass.getClassId() + "</center></b>" +
+													 "</td>" +
+												 "</tr>" +
+												 "<tr>" +
+													 "<td>" +
+													     "<center>" + "<b>Item Size Range : </b> " + harmonicClass.getMinClassSize() +
+													     	"<b> - </b>" + harmonicClass.getMaxClassSize() + "</center>" +
+													 "</td>" +
+												 "</tr>" +
+											"</table>";
+			}
+			tableHtmlString+= "<br /><br />";
+		}
+		else
+		{
+			tableHtmlString = HtmlStrings.NoDataHtmlMessage;;
+		}
+		return tableHtmlString;
 	}
 	
 	//general function for items rows hrml string
 	public static String GetItemHtml(List<Item> itemList, String heading ) {
 		
-		String tableHeadingTag = "";
 		String tableHtmlString ="";
 		if (itemList != null && itemList.size() > 0) 
 		{
@@ -76,7 +168,7 @@ public class HtmlStringConversions {
 
 	// general function for getting html string for trucks data
 	public static String GetInputAndResultHtml(  List<Item> inputItemList, List<Item> sortedItemList, 
-												 Output result, String algorithmName ) {
+												 Output result, String algorithmName ,List<HarmonicClass>  harmonicClasses) {
 		
 		String tableHtmlString = "";
 		if (inputItemList != null && inputItemList.size() > 0) 
@@ -98,6 +190,11 @@ public class HtmlStringConversions {
 				if(algorithmName == Constants.OPTAlgoName && sortedItemList!=null && sortedItemList.size() > 0) 
 					tableHtmlString += "<tr><td>" +  
 										GetItemHtml(sortedItemList, HtmlStrings.SortedItemListHeading) +
+									 "</td></tr>";
+				
+				if(algorithmName == Constants.HarmonicFitAlgoName && harmonicClasses!=null && harmonicClasses.size() > 0) 
+					tableHtmlString += "<tr><td>" +  
+										GetHarmonicClassesHtml(harmonicClasses) +
 									 "</td></tr>";
 				
 				
@@ -132,11 +229,21 @@ public class HtmlStringConversions {
 												"</td>" +
 											 "</tr>" + "<tr><td>" ;
 						
+						if(algorithmName == Constants.HarmonicFitAlgoName)
+							Collections.sort(temp, Truck.TruckHarmonicClassIdComparator);
+						else
+							Collections.sort(temp, Truck.TruckIdComparator);
+						
 						for (Truck truck : temp) {
 							tableHtmlString +=  "<table class=" + "\"" + "blueTable" + "\"" + ">"+
 													 "<tr>"+
 													 	"<td >" +
-														     "<h3><center>"+"Truck " + truck.getTruckId() +"</center></h3>" +
+														     "<h3><center>"+"Truck " + truck.getTruckId() +
+														     (truck.getIsExpedited()?
+																     "<b>*</b>":"") +
+														     (truck.getHarmonicClassId()> 0?
+														     (" : Class " + truck.getHarmonicClassId()):"") +
+														     "</center></h3>" +
 														 "</td>" +
 													  "</tr>";
 							List<Item> itemList = truck.getTruckItems();
@@ -151,7 +258,7 @@ public class HtmlStringConversions {
 														"</tr>" ;
 								}	
 							}
-							tableHtmlString += "</table>";
+							tableHtmlString += "</table> &nbsp;&nbsp;";
 							}
 						tableHtmlString += "</td></tr>" ;
 						}
@@ -162,4 +269,5 @@ public class HtmlStringConversions {
 		}
 		return tableHtmlString;
 	}
+
 }

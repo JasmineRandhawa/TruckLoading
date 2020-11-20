@@ -13,17 +13,22 @@ public class Truck {
 	private int RemainingCapacity;
 	private int MinDeliveryDeadline;
 	private int MaxDeliveryDeadline;
+	private int HarmonicClassId;
+	private boolean isExpedited;
+	private int TotalSizeOfExpeditedItems;
 
 	/* Constructor for Truck Class */
 	public Truck(int truckId,  List<Item> truckItems, int remainingCapacity, int minDeliveryDeadline,
-			int maxDeliveryDeadline) {
+			int maxDeliveryDeadline ,boolean isExpedited,int harmonicClassId) {
 		TruckId = truckId;
 		TruckItems = truckItems;
 		RemainingCapacity = remainingCapacity;
 		MinDeliveryDeadline = minDeliveryDeadline;
 		MaxDeliveryDeadline = maxDeliveryDeadline;
+		isExpedited= isExpedited;
+		HarmonicClassId = harmonicClassId;
 	}
-
+	
 	/* Getters and Setters for Truck Class Fields */
 	public int getTruckId() {
 		return TruckId;
@@ -64,6 +69,30 @@ public class Truck {
 	public void setMaxDeliveryDeadline(int maxDeliveryDeadline) {
 		MaxDeliveryDeadline = maxDeliveryDeadline;
 	}
+	
+	public int getHarmonicClassId() {
+		return HarmonicClassId;
+	}
+
+	public void setHarmonicClassId(int harmonicClassId) {
+		HarmonicClassId = harmonicClassId;
+	}
+
+	public boolean getIsExpedited() {
+		return isExpedited;
+	}
+
+	public void setIsExpedited(boolean isExpedited) {
+		this.isExpedited = isExpedited;
+	}
+
+	public int getTotalSizeOfExpeditedItems() {
+		return TotalSizeOfExpeditedItems;
+	}
+
+	public void setTotalSizeOfExpeditedItems(int totalSizeOfExpeditedItems) {
+		TotalSizeOfExpeditedItems = totalSizeOfExpeditedItems;
+	}
 
 	/* Comparator for sorting the Truck list by truck Id */
 	public static Comparator<Truck> TruckIdComparator = new Comparator<Truck>() {
@@ -78,6 +107,20 @@ public class Truck {
 
 		public int compare(Truck truck1, Truck truck2) {
 			return truck1.getRemainingCapacity() - truck2.getRemainingCapacity();
+		}
+	};
+	
+	/* Comparator for sorting the Truck list by truck delivery date comparator */
+	public static Comparator<Truck> TruckDeliveryDeadlineComparator = new Comparator<Truck>() {
+		public int compare(Truck truck1, Truck truck2) {
+			return truck1.getMinDeliveryDeadline() - truck2.getMinDeliveryDeadline();
+		}
+	};
+	
+	/* Comparator for sorting the Truck list by truck harmonic class id comparator */
+	public static Comparator<Truck> TruckHarmonicClassIdComparator = new Comparator<Truck>() {
+		public int compare(Truck truck1, Truck truck2) {
+			return truck1.getHarmonicClassId() - truck2.getHarmonicClassId();
 		}
 	};
 }

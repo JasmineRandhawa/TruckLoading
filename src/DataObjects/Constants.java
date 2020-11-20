@@ -4,7 +4,7 @@ package DataObjects;
 public class Constants {
 	
 	// Assumptions
-	public static final int OpenTrucksThreshold = 3;
+	public static final int OpenTrucksThreshold = 2;
 	public static final int TruckCapacity = 100;
 	
 	//Algorithm Names
@@ -14,7 +14,7 @@ public class Constants {
 	public static final String BestFitAlgoName = "Online Best Fit Algorithm";
 	
 	//File paths
-	public static final String DataFilePath = "src/InputFile/Input.txt";
+	public static final String DataFilePath = "src/InputFile/WorstCaseInput.txt";
 	public static final String OutputFilePath = "src/OutputFile/Results.html";
 	public static final String HTMLOutputTemplateFilePath = "src/OutputFile/Template.html";	
 	

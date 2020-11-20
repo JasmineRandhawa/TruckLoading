@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import DataObjects.HarmonicClass;
 import DataObjects.Item;
 import DataObjects.Truck;
 
@@ -12,24 +13,6 @@ checking conditions for values of fields of the truck */
 public class TruckOperations {
 
 	/* Public Methods */
-
-	// to open a new truck and load item into it
-	public static List<Truck> openNewTruck(Item item, int truckCapacity, List<Truck> openTrucks , List<Truck> closedTrucks) {
-		List<Item> truckItems = new ArrayList<Item>();
-		int remainingCapacity = truckCapacity - item.getItemSize();
-		truckItems.add(item);
-		int truckIndex = 1;
-		if(openTrucks!=null && openTrucks.size()>0)
-			truckIndex= GetMaxtruckId(openTrucks) + 1;
-		else if(closedTrucks!=null && closedTrucks.size()>0)
-			truckIndex= GetMaxtruckId(closedTrucks) + 1;
-		Truck truck = new Truck(truckIndex, truckItems, remainingCapacity, GetMinDeliveryDeadline(truckItems),
-				GetMaxDeliveryDeadline(truckItems));
-		if(openTrucks==null)
-			openTrucks = new ArrayList<Truck>();
-		openTrucks.add(truck);
-		return openTrucks;
-	}
 
 	// to load item in an existing truck
 	public static Truck LoadItemIntoTruck(Truck truck, Item item) {
@@ -52,7 +35,7 @@ public class TruckOperations {
 	}
 
 	// scan all the open trucks and find the first truck that can fit item
-	public static Truck GetTruckThanItemCanFitInto(List<Truck> openTrucks, int itemSize) {
+	public static Truck GetFirstTruckThanItemCanFitInto(List<Truck> openTrucks, int itemSize) {
 		for (Truck truck : openTrucks) {
 			if (itemSize <= truck.getRemainingCapacity())
 				return truck;
@@ -60,24 +43,59 @@ public class TruckOperations {
 		return null;
 	}
 
-	// scan all the open trucks and find the best truck that has delivery deadline
-	// as 1 and ,ax capacity and can be closed
-	public static Truck FindBestOpenTruckThatHasUnitDeliveryDate(List<Truck> openTrucks) {
+	// scan all the open trucks and find the best truck that can fit item
+	public static Truck GetBestTruckThanItemCanFitInto(List<Truck> openTrucks, int itemSize) {
 		Collections.sort(openTrucks, Truck.TruckRemainingCapacityComparator);
-		for (Truck truck : openTrucks)
-		if (truck.getMinDeliveryDeadline() == 1) {
-			return truck;
+		for (Truck truck : openTrucks) {
+			if (itemSize <= truck.getRemainingCapacity())
+				return truck;
+		}
+		return null;
+	}
+	
+	public static Truck GetCurrentOpenTruckWithinClassThatFitsItem(List<Truck> openTrucks,int itemSize, int classIdForItem) {
+		
+		List<Truck> openTrucksForClass = new ArrayList<Truck>();
+		for(Truck truck:openTrucks)
+		{
+			if(truck.getHarmonicClassId() == classIdForItem)
+				openTrucksForClass.add(truck);
+		}
+		Collections.sort(openTrucksForClass, Truck.TruckIdComparator);
+		if(openTrucksForClass!=null && openTrucksForClass.size()>0)
+		{
+			Truck truck = openTrucksForClass.get(openTrucksForClass.size()-1);
+			if (truck!=null && itemSize <= truck.getRemainingCapacity())
+				return truck;
 		}
 		return null;
 	}
 
-	// scan all the open trucks and find the first truck that has delivery deadline
-	// as 1 and can be closed
-	public static Truck FindFirstOpenTruckThatHasUnitDeliveryDate(List<Truck> openTrucks) {
-		for (Truck truck : openTrucks)
-			if (truck.getMinDeliveryDeadline() == 1) {
+	// scan all the open trucks and find the first truck that has lowest delivery
+	// deadline
+	public static Truck FindFirstOpenTruckWithLowestDeliveryDate(List<Truck> openTrucks) {
+		Collections.sort(openTrucks, Truck.TruckDeliveryDeadlineComparator);
+		return openTrucks.get(0);
+	}
+
+	// scan all the open trucks and find the best truck that has lowest delivery
+	// deadline
+	// max capacity and can be closed
+	public static Truck FindFullestOpenTruckWithLowestDeliveryDate(List<Truck> openTrucks) {
+		Collections.sort(openTrucks, Truck.TruckRemainingCapacityComparator);
+		Collections.sort(openTrucks, Truck.TruckDeliveryDeadlineComparator);
+		return openTrucks.get(0);
+	}
+	
+	// find the current truck 
+	public static Truck FindCurrentOpenTruck(List<Truck> openTrucks) {
+		if(openTrucks!=null && openTrucks.size()>0)
+		{
+			Collections.sort(openTrucks, Truck.TruckIdComparator);
+			Truck truck = openTrucks.get(openTrucks.size()-1);
+			if (truck!=null)
 				return truck;
-			}
+		}
 		return null;
 	}
 
@@ -97,10 +115,36 @@ public class TruckOperations {
 		return item.getDeliveryDeadline();
 	}
 
-	// Get Maximum value of Truck Id of trucks in the list
-	private static int GetMaxtruckId(List<Truck> trucks) {
-		Collections.sort(trucks, Truck.TruckIdComparator);
-		Truck truck = trucks.get(trucks.size() - 1);
-		return truck.getTruckId();
+	public static Truck UpdateTruckDeadline(Truck truckToBeClosed) {
+		// TODO Auto-generated method stub
+		int totalSizeOfExpeditedItems =0;
+		for (Item item : truckToBeClosed.getTruckItems()) {
+			if (item.getDeliveryDeadline() != 1) {
+				item.setDeliveryDeadline(1);
+				totalSizeOfExpeditedItems += item.getItemSize();
+			}
+		}
+		if(totalSizeOfExpeditedItems>0)
+		{
+			// update the expedite flag
+			truckToBeClosed.setIsExpedited(true);
+			truckToBeClosed.setTotalSizeOfExpeditedItems(totalSizeOfExpeditedItems);
+		}
+		return truckToBeClosed;
+	}
+	
+	//Divide into K harmonic classes
+	public static List<HarmonicClass> DivideIntoKClasses(int truckCapacity, int numberOfOpenTrucksAllowed) {
+		List<HarmonicClass> harmonicClasses = new ArrayList<HarmonicClass>(numberOfOpenTrucksAllowed);
+		int classSizeDifference = truckCapacity/numberOfOpenTrucksAllowed ; 
+		int numberOfClasses = numberOfOpenTrucksAllowed;
+		for (int i = 1; i <= numberOfClasses ;i++)
+		{
+			int minClassSize = i==1 ? 0 :classSizeDifference * (i-1) + 1;
+			int maxClassSize = classSizeDifference * i ;
+			HarmonicClass harmonicClass = new HarmonicClass((numberOfClasses - i)+1 ,minClassSize,maxClassSize);
+			harmonicClasses.add(harmonicClass);
+		}
+		return harmonicClasses;
 	}
 }
