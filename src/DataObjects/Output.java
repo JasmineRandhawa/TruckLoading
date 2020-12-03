@@ -2,44 +2,62 @@ package DataObjects;
 
 import java.util.List;
 
-// Truck Loading Result  Data objects to store output of Algorithm
-public class Output {
+import Utility.Common;
 
+/*  Data object to store Algorithm output and performance results */
+public class Output 
+{
 	/* Output Class Fields */
-	private List<Truck> OpenTrucks;
 	private List<Truck> ClosedTrucks;
-	private List<Item> UnprocessedItems;
+	private double TotalProfit;
+	private double TotalWaste;
+	private double WasteMinusProfit;
+	private double WasteProfitRatio;
+	private String AlgorthmName;
+	private String AlgorithmApproach;
 
 	/* Constructor for Output Class */
-	public Output(List<Truck> openTrucks, List<Truck> closedTrucks, List<Item> unProcessedItemList) {
+	public Output(List<Truck> closedTrucks, double totalProfit, 
+			      double totalWaste,
+			      String algorthmName,
+			      String algorithmApproach) 
+	{
 		super();
-		OpenTrucks = openTrucks;
 		ClosedTrucks = closedTrucks;
-		UnprocessedItems = unProcessedItemList;
+		TotalProfit = Common.RoundDecimal(totalProfit);
+		TotalWaste = Common.RoundDecimal(totalWaste);
+		WasteMinusProfit =  Common.RoundDecimal(totalWaste - totalProfit) ;
+		WasteProfitRatio = Common.RoundDecimal(totalWaste/totalProfit); 
+		AlgorthmName = algorthmName;
+		AlgorithmApproach = algorithmApproach;
 	}
 
 	/* Getters and Setters for Output Class Fields */
-	public List<Truck> getOpenTrucks() {
-		return OpenTrucks;
-	}
-
-	public void setOpenTrucks(List<Truck> openTrucks) {
-		OpenTrucks = openTrucks;
-	}
-
 	public List<Truck> getClosedTrucks() {
 		return ClosedTrucks;
 	}
 
-	public void setClosedTrucks(List<Truck> closedTrucks) {
-		ClosedTrucks = closedTrucks;
+	public double getTotalProfit() {
+		return TotalProfit;
 	}
 
-	public List<Item> getUnprocessedItems() {
-		return UnprocessedItems;
+	public double getTotalWaste() {
+		return TotalWaste;
+	}
+	
+	public double getWasteMinusProfit() {
+		return WasteMinusProfit;
+	}
+	
+	public double getWasteProfitRatio() {
+		return WasteProfitRatio;
 	}
 
-	public void setUnprocessedItems(List<Item> closedTrucks) {
-		UnprocessedItems = closedTrucks;
+	public String getAlgorthmName() {
+		return AlgorthmName;
+	}
+
+	public String getAlgorithmApproach() {
+		return AlgorithmApproach;
 	}
 }

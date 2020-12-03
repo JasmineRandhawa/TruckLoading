@@ -6,49 +6,67 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import DataObjects.Item;
 
-//Item Operations such as searching for specific items in a list
-public class ItemOperations {
-
+/* Item data Load and Access Operations */
+public class ItemOperations 
+{
+	static List<Item> inputList = new ArrayList<Item>();
+	
 	/* Public Methods */
 
-	// load data file into Input list from input file
-	public static List<Item> LoadItemsIntoListFromFile(String dataFilePath) {
-		List<Item> itemList = new ArrayList<Item>();
-		try {
+	/* load data file into Input list from input file */
+	public static List<Item> LoadItemsIntoListFromFile(String dataFilePath) 
+	{
+		inputList = new ArrayList<Item>();
+		
+		try 
+		{
 			File file = new File(dataFilePath);
 			BufferedReader in = new BufferedReader(new FileReader(file));
 			String line;
 			int row = 1;
 			int itemId = 1;
-			while ((line = in.readLine()) != null) {
-				String[] values = line.split(",");
+			while ((line = in.readLine()) != null) 
+			{
+				String[] values = line.split("\t");
 				if (row == 1) {
 					row++; // skip first line as it has column names
 					continue;
 				}
-				if (values.length != 2)
-					break;
-				Item item = new Item(itemId++, Integer.parseInt(values[0].trim()), Integer.parseInt(values[1].trim()));
-				itemList.add(item);
-				row++;
+
+				if (values == null || values.length != 2)
+					return new ArrayList<Item>();
+
+				if (values != null && values.length == 2 && values[0].trim() != null && values[0].trim().length() > 0
+						&& values[1].trim() != null && values[1].trim().length() > 0) 
+				{
+					int id = itemId++;
+					double size = Common.RoundDecimal(Double.parseDouble(values[0].trim()));
+					int deadline = Integer.parseInt(values[1].trim());
+					Item item = new Item(id, size, deadline);
+					inputList.add(item);
+					row++;
+				}
 			}
+			
 			in.close();
-		} catch (IOException e) {
-			System.out.println("File Read Error");
+			if (inputList != null & inputList.size() > 0)
+				System.out.println("Data Load completed for file "  + dataFilePath);
+			return inputList;
+		} 
+		catch (IOException ex) 
+		{
+			
+			System.out.println("Input data load error" + ex.getMessage());
 		}
-		return itemList;
+		return inputList;
 	}
 
-	public static Item GetFirstUnProcessedItemThatFitTheTruck(int truckRemainingCapacity,
-			List<Item> unProcessedItemList) {
-		// scan all the unprocessed items
-		for (Item item : unProcessedItemList) {
-			// loads the item in the first truck it can fit it
-			if (item.getItemSize() <= truckRemainingCapacity)
-				return item;
-		}
-		return null;
+	/* get input item list */
+	public static List<Item> GetInpuItemList() 
+	{
+		return inputList;
 	}
 }

@@ -1,54 +1,48 @@
 import java.io.IOException;
 import java.util.List;
 
-import Algorithms.Harmonic_OnlineAlgorithm;
-import Algorithms.OPT_Offline;
-import Algorithms.OnlineAlgorithm;
-
 import DataObjects.Output;
 import DataObjects.Constants;
 import DataObjects.Item;
-import DataObjects.PerformanceComparison;
 
-import Performance.ComputePerformance;
-import Utility.CreateOutputHtmlFile;
+import Results.Results;
+import Results.CreateComparisonResultsHtmlFile;
+
 import Utility.ItemOperations;
 
 // Main.Java to compute and display results of Truck Loading  Algorithms
-public class Main {
+public class Main 
+{
 
-	public static void main(String[] args) throws IOException {
-		try
+	public static void main(String[] args) throws IOException 
+	{
+		try 
 		{
-			String dataFilePath = Constants.DataFilePath;
-	
+			/* uncomment below function to mock deadline data by first copying item size data from source file, 
+			   then mocking deadline data by random numbers and 
+			   and writing the (size, deadline) back to source file */
+			//MockInputData.MockInputItemDeadlineData(Constants.TinyInputDataFilePath);
+			
+			// input data file path
+			String dataFilePath = Constants.LargeInputDataFilePath;
+
 			// load item data from file into a list
 			List<Item> inputItems = ItemOperations.LoadItemsIntoListFromFile(dataFilePath);
-			
-			// Get output result from Offline - First Fit Decreasing Algorithm
-			Output resultOPT_FFD = OPT_Offline.GetResults(inputItems);
-	
-			// Get output result from Online - First Fit Algorithm
-			Output resultOnline_FirstFit = OnlineAlgorithm.GetResults(inputItems, Constants.FirstFitAlgoName);
-	
-			// Get output result from Online - Best Fit Algorithm
-			Output resultOnline_BestFit = OnlineAlgorithm.GetResults(inputItems, Constants.BestFitAlgoName);
-	
-			// Get output result from Online - Harmonic Fit Algorithm
-			Output resultOnline_HarmonicFit = Harmonic_OnlineAlgorithm.GetResults(inputItems, Constants.HarmonicFitAlgoName);
-	
-			// compute competitive ratio , wastage and delivered items
-			List<PerformanceComparison> comparisonResults = ComputePerformance.GetResult(inputItems,
-															resultOPT_FFD, resultOnline_FirstFit,
-					                                        resultOnline_BestFit, resultOnline_HarmonicFit);
-	
-			// Load results into Files
-			CreateOutputHtmlFile.CreateHTMLFile(inputItems, resultOPT_FFD, resultOnline_FirstFit,resultOnline_BestFit, 
-					                            resultOnline_HarmonicFit,comparisonResults);
-			System.out.println(Constants.SuccessMessage + Constants.OutputFilePath);
-		}
-		catch(Exception e) {
-			System.out.println(Constants.ErrorMessage + e.getMessage());
+
+			// Invoke online algorithms for all approaches and create HTMl files for
+			// algorithm output
+			Results.InvokeOnlineAlgorithms(inputItems);
+
+			// Get comparison results for all algorithm approaches
+			List<Output> comparisonResults = Results.GetComparisonResults();
+
+			// create HTML file for display comparison results
+			CreateComparisonResultsHtmlFile.Create(comparisonResults);
+
+		} 
+		catch (Exception ex) 
+		{
+			System.out.println("Error While processing: " + ex.getMessage());
 		}
 	}
 

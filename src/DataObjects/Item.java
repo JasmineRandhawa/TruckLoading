@@ -2,18 +2,19 @@ package DataObjects;
 
 import java.util.Comparator;
 
-public class Item {
-
+/*  Data object to store Item data from input data file */
+public class Item 
+{
 	/* Item Class Fields */
 	private int ItemId;
-	private int ItemSize;
-	private int DeliveryDeadline;
+	private double ItemSize;
+	private int Deadline;
 
 	/* Constructor for Item Class */
-	public Item(int itemId, int itemSize, int deliveryDeadline) {
+	public Item(int itemId, double itemSize, int deadline) {
 		ItemId = itemId;
 		ItemSize = itemSize;
-		DeliveryDeadline = deliveryDeadline;
+		Deadline = deadline;
 	}
 
 	/* Getters and Setters for Item Class Fields */
@@ -21,42 +22,27 @@ public class Item {
 		return ItemId;
 	}
 
-	public void setItemId(int itemId) {
-		ItemId = itemId;
-	}
-
-	public int getItemSize() {
+	public double getItemSize() {
 		return ItemSize;
 	}
 
-	public void setItemSize(int itemSize) {
-		ItemSize = itemSize;
+	public int getDeadline() {
+		return Deadline;
 	}
 
-	public int getDeliveryDeadline() {
-		return DeliveryDeadline;
-	}
-
-	public void setDeliveryDeadline(int deliveryDeadline) {
-		DeliveryDeadline = deliveryDeadline;
-	}
-
-	/*
-	 * Comparator for sorting the item list by delivery deadline in ascending order
-	 */
-	public static Comparator<Item> ItemDeliveryDealineComparator = new Comparator<Item>() {
-
+	/*Field Comparators for Item Class*/
+	
+	/* Comparator for sorting the Item list by Id comparator descending order */
+	public static Comparator<Item> ItemIdComparator = new Comparator<Item>() {
 		public int compare(Item item1, Item item2) {
-			return item1.getDeliveryDeadline() - item2.getDeliveryDeadline();
+			return item2.getItemId() - item1.getItemId();
 		}
 	};
-
-	/* Comparator for sorting the item list by item size in descending order */
-	public static Comparator<Item> ItemSizeComparator = new Comparator<Item>() {
-
+	
+	/* Comparator for sorting the Item list by deadline comparator  ascending order */
+	public static Comparator<Item> ItemDeadlineComparator = new Comparator<Item>() {
 		public int compare(Item item1, Item item2) {
-			return item2.getItemSize() - item1.getItemSize();
+			return item1.getDeadline() - item2.getDeadline();
 		}
 	};
-
 }

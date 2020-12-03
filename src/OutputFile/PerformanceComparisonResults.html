@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- Template by quackit.com -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Truck Loading Output</title>
+<style type="text/css">
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Sans-serif;
+	line-height: 1.5em;
+}
+
+#header {
+	font-size: large;
+	padding: 0.3em;
+	background: #BCCE98;
+}
+
+.divcontainer {
+	width: auto;
+	display: inline;
+}
+
+table.blueTable {
+	border: 1px solid #1C6EA4;
+	display: inline-block;
+	width: auto;
+	text-align: left
+}
+
+table.blueTable td, table.blueTable th {
+	border: 1px solid #AAAAAA;
+}
+
+table.blueTable tbody td {
+	font-size: 14px;
+}
+
+table.blueTable thead th {
+	font-weight: bold;
+	background-color: LightSkyBlue;
+}
+
+table.blueTable2 {
+	display: inline-block;
+	width: auto;
+	text-align: center
+}
+
+table.blueTable2 td, table.blueTable th {
+}
+
+table.blueTable2 tbody td {
+	font-size: 18px;
+}
+
+table.blueTable2 thead th {
+	font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+	<header id="header">
+		<center>
+			<h1>Truck Loading</h1>
+		</center>
+	</header>
+
+	<div id="container"class "divcontainer"><center>												<span style="color:ForestGreen	;"><b><h2> Given: </b></h2></span><span style="color:DarkGreen	;">Each Truck Capacity is of Capacity : 1.0<br />Maximum Threshold for Number of Open trucks allowed at any instance : 4</span></center><br /> <br /><center><span style="color:ForestGreen;"><b><h2>Performance Comparison:</b></h2></span></center><span><b>Results : Existing Algo</b></span><br /><br /><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online First Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 391.92</center></td></tr><tr><td><center><b>Waste : </b> 1599.17</center></td></tr><tr><td><center><b>Waste - Profit </b> 1207.25</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 4.08</center></td></tr></table><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online Best Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 500.03</center></td></tr><tr><td><center><b>Waste : </b> 1771.06</center></td></tr><tr><td><center><b>Waste - Profit </b> 1271.03</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 3.54</center></td></tr></table><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online Harmonic Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 954.29</center></td></tr><tr><td><center><b>Waste : </b> 8040.8</center></td></tr><tr><td><center><b>Waste - Profit </b> 7086.51</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 8.43</center></td></tr></table><br /><br /><br /><span><b>Results : Proposed Algo Risk Metric 1</b></span><br /><br /><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online First Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 818.92</center></td></tr><tr><td><center><b>Waste : </b> 1219.17</center></td></tr><tr><td><center><b>Waste - Profit </b> 400.25</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.49</center></td></tr></table><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online Best Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 826.0</center></td></tr><tr><td><center><b>Waste : </b> 1200.09</center></td></tr><tr><td><center><b>Waste - Profit </b> 374.09</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.45</center></td></tr></table><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online Harmonic Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 769.39</center></td></tr><tr><td><center><b>Waste : </b> 1462.7</center></td></tr><tr><td><center><b>Waste - Profit </b> 693.31</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.9</center></td></tr></table><br /><br /><br /><span><b>Results : Proposed Algo Risk Metric 2</b></span><br /><br /><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online First Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 921.86</center></td></tr><tr><td><center><b>Waste : </b> 1330.23</center></td></tr><tr><td><center><b>Waste - Profit </b> 408.37</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.44</center></td></tr></table><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online Best Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 921.84</center></td></tr><tr><td><center><b>Waste : </b> 1327.25</center></td></tr><tr><td><center><b>Waste - Profit </b> 405.41</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.44</center></td></tr></table><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online Harmonic Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 914.59</center></td></tr><tr><td><center><b>Waste : </b> 1623.5</center></td></tr><tr><td><center><b>Waste - Profit </b> 708.91</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.78</center></td></tr></table><br /><br /><br /><span><b>Results : Proposed Algo Risk Metric 3</b></span><br /><br /><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online First Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 912.92</center></td></tr><tr><td><center><b>Waste : </b> 1300.17</center></td></tr><tr><td><center><b>Waste - Profit </b> 387.25</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.42</center></td></tr></table><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online Best Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 911.79</center></td></tr><tr><td><center><b>Waste : </b> 1292.3</center></td></tr><tr><td><center><b>Waste - Profit </b> 380.51</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.42</center></td></tr></table><table class="blueTable"><tr><td><b><span style="color:Chocolate	;">Online Harmonic Fit Algorithm</b></span></td></tr><tr><td><center><b>Profit : </b> 903.89</center></td></tr><tr><td><center><b>Waste : </b> 1590.2</center></td></tr><tr><td><center><b>Waste - Profit </b> 686.31</center></td></tr><tr><td><center><b>Waste/Profit Ratio : </b> 1.76</center></td></tr></table><br /><br /><br /></div>
+
+</body>
+
+</html>
