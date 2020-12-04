@@ -4,7 +4,7 @@ package DataObjects;
 public class Constants 
 {
 	// Assumptions
-	public static final int OpenTrucksThreshold = 4;
+	public static final int OpenTrucksThreshold = 2;
 	public static final double TruckCapacity = 1.0;
 
 	// Algorithm Names
@@ -39,4 +39,5 @@ public class Constants
 	public static final String OptThresholdCloseMessage = "Closing Truck With<br /> Opt Max Profit";
 	public static final String OptNoFutureItemFoundCloseMessage = "Closing as no more future item<br /> within deadline fits";
 	public static final String RiskExceedingOneCloseMessage = "Closing as risk > 1<br />";
+	public static final String ThresholddMaxRiskCloseMessage = "Threshold Reached <br/> Closing one with max risk<br />";
 }

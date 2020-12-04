@@ -71,6 +71,7 @@ public class TruckOperations
 	/*  scan all the open trucks and find the first truck that can fit item */
 	public static Truck FindFirstTruckThatFits(List<Truck> openTrucks, double itemSize) 
 	{
+		Collections.sort(openTrucks, Truck.TruckIdComparator);
 		for (Truck truck : openTrucks) 
 		{
 			if (itemSize <= truck.getRemainingCapacity())
@@ -82,6 +83,7 @@ public class TruckOperations
 	/*  scan all the open trucks and find the fullest truck that can fit item */
 	public static Truck FindFullestTruck(List<Truck> openTrucks, double itemSize) 
 	{
+		Collections.sort(openTrucks, Truck.TruckIdComparator);
 		Collections.sort(openTrucks, Truck.TruckRemainingCapacityComparator);
 		for (Truck truck : openTrucks)
 			if (itemSize <= truck.getRemainingCapacity())
@@ -111,38 +113,25 @@ public class TruckOperations
 		return null;
 	}
 
-	/*  find the first open truck that has items with deadline greater than T */
-	public static Truck FindFirstOpenTruckWithinDeadline(List<Truck> openTrucks, int T) 
+	/*  find the first open truck */
+	public static Truck FindFirstOpenTruck(List<Truck> openTrucks) 
 	{
-		for (Truck truck : openTrucks) 
-		{
-			List<Item> items = truck.getTruckItems();
-			for (Item item : items) 
-			{
-				int deadline = item.getDeadline();
-				if (deadline >= T + 1)
-					return truck;
-			}
-		}
+		Collections.sort(openTrucks, Truck.TruckIdComparator);
 		return openTrucks.get(0);
 	}
 
-	/* find the best open truck that has maximum total size for items that have
-        deadline greater than T */
-	public static Truck FindBestOpenTruckWithMaxItemsWithinDeadline(List<Truck> openTrucks, 
-																	int T) 
+	/* find the fullest open truck */
+	public static Truck FindFullestOpenTruck(List<Truck> openTrucks) 
 	{
-		double profit = 0.0;
 		for (Truck truck : openTrucks) 
 		{
+			double totalOccupiedSize = 0.0;
 			List<Item> items = truck.getTruckItems();
 			for (Item item : items) 
 			{
-				int deadline = item.getDeadline();
-				if (deadline >= T + 1)
-					profit = item.getItemSize();
+				totalOccupiedSize += item.getItemSize();
 			}
-			truck.setProfit(profit);
+			truck.setProfit(totalOccupiedSize);
 		}
 		Collections.sort(openTrucks, Truck.TruckTotalSizeOfItemsWithinDeadlineComparator);
 		return openTrucks.get(0);

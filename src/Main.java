@@ -24,7 +24,7 @@ public class Main
 			//MockInputData.MockInputItemDeadlineData(Constants.TinyInputDataFilePath);
 			
 			// input data file path
-			String dataFilePath = Constants.LargeInputDataFilePath;
+			String dataFilePath = Constants.TinyInputDataFilePath;
 
 			// load item data from file into a list
 			List<Item> inputItems = ItemOperations.LoadItemsIntoListFromFile(dataFilePath);

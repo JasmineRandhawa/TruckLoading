@@ -158,7 +158,7 @@ public class ProposedAlgorithm
 			Truck truck = TruckOperations.FindTruckWithMaxRiskForKeepingOpen(openTrucks);
 			if (truck != null) 
 			{
-				truck.setClosingReason(Constants.RiskExceedingOneCloseMessage);
+				truck.setClosingReason(Constants.ThresholddMaxRiskCloseMessage);
 				truck.setClosingTime(T);
 				openTrucks.remove(truck);
 				closedTrucks.add(truck);

@@ -123,11 +123,7 @@ public class HtmlStringConversions
 										"</td>" +
 									 "</tr>" + "<tr><td>" ;
 						
-				if(algorithmName == Constants.HarmonicFitAlgoName)
-					Collections.sort(closedTrucks, Truck.TruckHarmonicClassIdComparator);
-				else
-					Collections.sort(closedTrucks, Truck.TruckIdComparator);
-						
+				Collections.sort(closedTrucks,Truck.TruckIdComparator);
 				for (Truck truck : closedTrucks) 
 				{
 					tableHtmlString +=  "<table class=" + "\"" + "blueTable" + "\"" + ">"+
@@ -297,6 +293,13 @@ public class HtmlStringConversions
 														  "</center>" +
 													 "</td>" +
 												   "</tr>"+
+												   "<tr>"+
+													"<td>" +
+														  "<center>" + "<b>No. Of Trucks Used : </b> " +
+														  		output.getClosedTrucks().size() + 
+														  "</center>" +
+													 "</td>" +
+												   "</tr>" +
 											"</table>";
 					}
 				}

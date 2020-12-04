@@ -110,12 +110,12 @@ public class ExistingAlgorithm
 		{
 			Truck truckToBeClosed = null;
 			if (algorithmName == Constants.FirstFitAlgoName)
-				truckToBeClosed = TruckOperations.FindFirstOpenTruckWithinDeadline(openTrucks, T);
+				truckToBeClosed = TruckOperations.FindFirstOpenTruck(openTrucks);
 			else if (algorithmName == Constants.BestFitAlgoName)
-				truckToBeClosed = TruckOperations.FindBestOpenTruckWithMaxItemsWithinDeadline(openTrucks, T);
+				truckToBeClosed = TruckOperations.FindFullestOpenTruck(openTrucks);
 			else if (algorithmName == Constants.HarmonicFitAlgoName)
 				truckToBeClosed = TruckOperations.FindCurrentOpenTruck(openTrucks);
-	
+			truckToBeClosed.setClosingTime(0);
 			if (truckToBeClosed != null)
 			{				
 				Close(truckToBeClosed, Constants.ThresholdCloseMessage);
