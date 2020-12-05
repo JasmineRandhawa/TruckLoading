@@ -175,7 +175,7 @@ public class ProposedAlgorithm
 		else if(algorithmApproach == Constants.ProposedApproach2)
 			loss = Common.RoundDecimal(2* totalSizeOfItemsAtRisk) ;
 		else if(algorithmApproach == Constants.ProposedApproach3)
-			loss = Common.RoundDecimal(2* totalSizeOfItemsAtRisk) ;
+			loss = Common.RoundDecimal(3* totalSizeOfItemsAtRisk) ;
 		return loss;
 	}
 
@@ -186,9 +186,9 @@ public class ProposedAlgorithm
 		if(algorithmApproach == Constants.ProposedApproach1)
 			gain = Common.RoundDecimal(spaceRemainingInTruck) ;
 		else if(algorithmApproach == Constants.ProposedApproach2)
-			gain = Common.RoundDecimal((spaceRemainingInTruck* spaceRemainingInTruck)/2) ;
+			gain = Common.RoundDecimal(spaceRemainingInTruck* spaceRemainingInTruck) ;
 		else if(algorithmApproach == Constants.ProposedApproach3)
-			gain = Common.RoundDecimal((2* (spaceRemainingInTruck* spaceRemainingInTruck))/3) ;
+			gain = Common.RoundDecimal(2* (spaceRemainingInTruck* spaceRemainingInTruck)) ;
 		return gain;
 	}
 
